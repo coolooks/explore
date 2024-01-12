@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/three": "^0.103.2",
+    "pixi.js": "^5.2.0"
+  },
+  "devDependencies": {
+    "pixi.js": "^5.2.0"
+  }
+}

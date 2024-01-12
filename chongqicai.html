@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+  <title>重重-选择器</title>
+  <script src="./js/gsap-latest-beta.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollToPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/Draggable.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/EaselPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/MotionPathPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/PixiPlugin.min.js"></script> -->
+  <script src="./js/TextPlugin.min.js"></script>
+  <link rel="stylesheet" href="./css/init.css">
+  <link rel="stylesheet" href="./css/chongchong.css">
+  <script>
+    document.documentElement.style.fontSize = window.innerWidth / 37.5 + 'px'
+  </script>
+</head>
+<body>
+  <div class="start-mask" id="start-mask">
+    <div class="progress">
+      <div class="line"></div>
+      <p class="p-txt title">第一章 · 重庆菜馆</p>
+      <p class="p-txt">加载中...</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="bg"></div>
+    <div class="ren">看板娘</div>
+    <div class="dialog">
+      <div class="content">
+        <p class="_p p1"></p>
+      </div>
+      <div class="foot">
+        <div class="button shadow green" id="ok1">去尝尝</div>
+        <div class="button shadow green">算了吧</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+
+    function tf(rem) {
+      return window.innerWidth / 37.5 * rem
+    }
+
+
+    let progress = gsap.timeline({})
+    .to('.progress .line', { duration: 1.5, width: tf(25), ease: 'none' })
+    .to('.progress .p-txt', { duration: 0, text:{ value: '完成'}})
+    .to('.start-mask', { duration: 1, opacity: 0, ease: 'none' })
+    .then((res) => {
+      res.clear()
+      let mask = document.getElementById('start-mask')
+      mask.parentNode.removeChild(mask)
+      ren.play()
+    })
+
+    let ren = gsap.timeline({ paused: true })
+    .to('.bg', { duration: 1, opacity: 0.5, ease: 'ease' })
+    .from('.ren', { duration: 0.7, x: tf(24), ease: 'ease' })
+    .from('.dialog', { duration: 0.5, opacity: 0, x: tf(-24), ease: 'back' })
+    .to('.p1', { duration: 2, text:{ value: '勾就金Sama，发工资了呢❥(^_^)'}, ease: 'none'})
+    .to('.p1', { duration: 0, text:{ value: ''}, ease: 'none'}, '+=2')
+    .to('.p1', { duration: 3, text:{ delay: 1, value: '好久没来重庆菜了呢，来尝一下嘛，勾就金Sama(*╹▽╹*)'}, ease: 'none'})
+    .from('.dialog .foot', { duration: 1, display: 'none', ease: 'none' })
+
+    // ren.timeScale(10)
+
+    let ok1 = document.getElementById('ok1')
+    ok1.addEventListener('touchend', () => {
+      console.log(1);
+      let tl = gsap.timeline()
+      .to('.dialog .foot', { duration: 0.01, display: 'none' })
+      .to('.p1', { duration: 0, text:{ value: ''}})
+      .to('.p1', { duration: 1, text:{ value: '勾就金Sama，里面进'}})
+      ren.add(tl)
+    })
+
+    check()
+    function check() {
+      if (window.innerWidth > 415) {
+        let mask = document.body
+        mask.innerHTML = ''
+        alert('请用手机端打开')
+      }
+    }
+
+    function startHandle() {
+      let tl = gsap
+      .timeline({
+        paused: true,
+        repeat: -1,
+        yoyo: false,
+        onUpdate() {
+          // let p_num = tl.totalProgress() * 100
+          // progressWrap.innerHTML = p_num.toFixed(2) + '%'
+        },
+        onComplete: () => {
+          // tl.progress(0).pause()
+        }
+      })
+      .to('.bai-item', { duration: 1, z: 300, stagger: 0.5, ease: 'none' })
+
+      return tl
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/pixi.min.js"></script>
+  <script src="./js/charm.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script>
+    let c = new Charm(PIXI);
+    let Application = PIXI.Application,
+      loader = PIXI.loader,
+      resources = PIXI.loader.resources,
+      Sprite = PIXI.Sprite,
+      TextureCache = PIXI.utils.TextureCache
+
+    let app = new Application({
+      width: 500,
+      height: 500,
+      transparent: false,
+      antialias: true,
+      resolution: 1,
+      backgroundColor: '0x061639'
+    })
+
+    document.getElementById('container').appendChild(app.view)
+
+    loader.add(['img/logo.png', 'img/mid.jpg', 'img/00.png', 'img/sprite.json']).on('progress', progressHandler).load(setup)
+
+    let r = 0;
+    let alpha = 1;
+    let pic, pic2;
+    let stop;
+    function setup() {
+      // let pic = new Sprite(resources['img/00.png'].texture)
+      let id = resources['img/sprite.json'].textures
+      pic = new Sprite(id['cat.png'])
+      pic2 = new Sprite(id['tiger.png'])
+
+      pic.position.set(250 - pic.width / 2, 250 - pic.height / 2)
+
+      app.stage.addChild(pic, pic2)
+      // pic.rotation = r
+      // r += Math.PI / 360
+
+      // pic.pivot.set(pic.width / 2, pic.height / 2)
+      pic.anchor.set(0.5, 0.5)
+      pic.interactive = pic2.interactive = true
+      pic.on('click', (e) => {
+        // c.wobble(pic)
+      })
+
+      pic2.on('click', (e) => {
+        c.slide(pic2, 400, 400, 60, "inverseSineSquared", true);
+        // c.pulse(pic2)
+      })
+
+      app.ticker.add((e) => {
+        // pic2.rotation += (Math.PI / 36)
+      })
+      gameLoop()
+    }
+
+    let state = play
+    function gameLoop(e) {
+      stop = requestAnimationFrame(gameLoop);
+      state(e);
+      c.update();
+      console.log(1);
+      app.renderer.render(app.stage);
+    }
+
+    function play(e) {
+
+    }
+
+    function progressHandler(e, r) {
+      console.log('loading', e.progress + '%');
+    }
+  </script>
+</body>
+
+</html>

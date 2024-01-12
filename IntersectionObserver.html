@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>IntersectionObserver</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script> -->
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .main {
+      min-height: 100vh;
+      padding: 10px;
+    }
+    .item{
+      height: 100px;
+      background-color: #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+  </div>
+  <script>
+    /**
+     * 快速滑动滚动条，触发IntersectionObserver会导致白屏
+     * 处理此问题的一种方法是尝试间接推断哪些元素穿过视口但未被交叉观察器捕获。
+     * 要实现它，您需要按升序为所有列表元素提供唯一的数字属性。
+     * 然后，在每个 Intersection Observer 的回调函数中，保存相交元素的最小和最大 ID。
+     * 在回调结束时，调用setTimeout(applyChanges, 150)调度一个函数，该函数将循环遍历 ID 介于min和之间max且未被 IO 忽略的所有元素。
+     * 另外，放在clearTimeout()回调的开始处，以确保该函数等待，直到 IO 在一段时间内处于非活动状态。
+     **/
+    let minId = null;
+    let maxId = null;
+    let debounceTimeout = null;
+    const main = document.querySelector('.main');
+    const items = document.querySelectorAll('.item');
+    const io = new IntersectionObserver(reportIntersection, main);
+
+    for (let index = 0; index < 1000; index++) {
+      let itemDOM = document.createElement('div')
+      itemDOM.setAttribute('class', 'item')
+      itemDOM.setAttribute('id', index + 1)
+      itemDOM.innerText = index + 1
+      main.appendChild(itemDOM)
+      io.observe(itemDOM)
+    }
+
+    function reportIntersection(entries) {
+      clearTimeout(debounceTimeout)
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const entryId = parseInt(entry.target.id);
+          console.log('item:', entryId);
+          if (minId === null || maxId === null) {
+            minId = entryId;
+            maxId = entryId;
+          } else {
+            minId = Math.min(minId, entryId);
+            maxId = Math.max(maxId, entryId);
+          }
+        }
+      })
+      debounceTimeout = setTimeout(applyChanges, 500)
+    }
+
+    function applyChanges() {
+      console.log(minId, maxId);
+      const items = document.querySelectorAll('.item');
+      // perform action on elements with Id between min and max
+      minId = null;
+      maxId = null;
+    }
+
+    document.addEventListener('click', (event) => {
+      console.log('event: ', event);
+    })
+  </script>
+</body>
+</html>

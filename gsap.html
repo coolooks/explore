@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+  <title>gsap</title>
+  <script src="./js/gsap-latest-beta.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollToPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/Draggable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/EaselPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/MotionPathPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/PixiPlugin.min.js"></script>
+  <script src="./js/TextPlugin.min.js"></script>
+  <link rel="stylesheet" href="./css/gsap.css">
+</head>
+<body>
+  <div class="progress" id="progress">0.00%</div>
+
+  <div class="main">
+    <div class="contain" id="contain">
+      <p class="wrap"></p>
+      <p class="wrap"></p>
+      <p class="wrap"></p>
+    </div>
+
+    <div class="aaa">sddssdsd</div>
+
+    <div class="test">
+      <div class="p1"></div>
+      <div class="p2"></div>
+    </div>
+
+    <input id="slider" type="range" min="0" max="1" value="0" step="0.001" />
+  </div>
+
+  <div class="btn-contain">
+    <button class="btn play">开始</button>
+    <button class="btn pause">暂停</button>
+    <button class="btn restart">重新</button>
+    <button class="btn kill">杀死</button>
+  </div>
+
+  <!--  -->
+
+  <script>
+    let startBtn = document.querySelector('.play')
+    let stopBtn = document.querySelector('.pause')
+    let reBtn = document.querySelector('.restart')
+    let killBtn = document.querySelector('.kill')
+    let slider = document.getElementById('slider')
+
+    let tween = startHandle()
+    startBtn.onclick = () => {
+      tween.play()
+    }
+    
+    stopBtn.onclick = () => {
+      tween.pause()
+    }
+    reBtn.onclick = () => {
+      tween.restart()
+    }
+
+    killBtn.onclick = () => {
+      tween.kill()
+    }
+
+    
+
+    function startHandle(callback) {
+      let progressWrap = document.getElementById('progress')
+      let tl = gsap
+      .timeline({
+        paused: true,
+        repeat: 1,
+        yoyo: true,
+        onUpdate() {
+          let p_num = tl.totalProgress() * 100
+          progressWrap.innerHTML = p_num.toFixed(2) + '%'
+          // 
+          // slider.value = tl.totalProgress()
+        },
+        onComplete: () => {
+          // tl.reverse()
+        }
+      })
+      .to('.contain', { duration: 2, x: 500, rotation: 360, ease: 'back' })
+      .addLabel('aaa')
+      .to('.aaa', { duration: 1, y: 100, ease: 'back' })
+      .from('.wrap', { duration: 0.7, y: 100, stagger: 0.2, rotation: 360, ease: 'back' }, 'aaa-=1') // -= 早1秒执行
+
+      return tl
+    }
+
+    /**
+     * 
+     * 
+     *
+     **/
+    let test = document.querySelector('.test')
+    let _test = testHandle()
+    test.onclick = () => {
+      _test.play()
+    }
+    function testHandle() {
+      let tl = gsap.timeline({
+        paused: true
+      })
+      .to('.test', {duration: 0.4, width: 550, ease: 'back' })
+      .to('.test', {duration: 0.3, height: 80, ease: 'back' })
+      // .to('.test', {duration: 1, text: { value: '英子牛逼' }, ease: 'none'})
+      .to('.p1', {duration: 1, text: { value: '晚上重重吗？兄弟们' }, ease: 'none'})
+      .to('.test', {duration: 0.3, height: 160, ease: 'back' })
+      .to('.p2', {duration: 1, text: { value: '我有大事要宣布' }, ease: 'none'})
+
+      return tl
+    }
+
+    slider.addEventListener('input', () => {
+      _test.totalProgress(slider.value).pause()
+    })
+  </script>
+</body>
+</html>

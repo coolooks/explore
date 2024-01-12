@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>unoCSS</title>
+  <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body class="p-50px">
+  <div class="main bg-#eee w-100px h-100px"></div>
+
+  <div>
+    <abbr title="这是一个演示">演示</abbr>
+    <abbr title="这是一个演示">演示</abbr>
+  </div>
+  <div>
+    <mark>这是一个高亮</mark>
+  </div>
+  <!--  -->
+  <div>
+    <progress max="100" value="50"></progress>
+    <progress class="" percent="" show-info="false" stroke-width="6" color="#09BB07" active="false" backgroundColor="" activeColor="" active-mode="backwards"></progress>
+  </div>
+  <!--  -->
+  <div>
+    <details>
+      <summary>查看更多</summary>
+      <div>11111111111111111</div>
+      <div>22222222222222222</div>
+    </details>
+  </div>
+  <!--  -->
+  <div>
+    <label for="input1"> 输入C开头的英文单词：</label>
+    <input id="input1" type="text" />
+  </div>
+</body>
+</html>

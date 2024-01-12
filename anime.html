@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>anime</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    .main{
+      width: 100px;
+      height: 100px;
+      margin: 100px auto auto;
+      position: relative;
+      perspective: 300px;
+      transform-style: preserve-3d;
+      display: flex;
+    }
+    .title{
+      margin: auto;
+      font-size: 12px;
+      color: #333;
+    }
+    .container, .wrapper, .item1, .item2, .item3, .item4, .item5{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      box-sizing: border-box;
+      border: 1px dashed #333;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+    }
+    .container{
+      animation: container 3s linear infinite forwards;
+    }
+    @keyframes container{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(90deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(90deg) rotate3d(-1, 0, 0, 360deg); }
+    }
+
+    .wrapper{
+      animation: wrapper 3.5s linear -1s infinite forwards;
+    }
+    @keyframes wrapper{
+      0%{ transform: translate3d(-50%, -50%, 0); }
+      100% { transform: translate3d(-50%, -50%, 0) rotate3d(1, 0, 0, 360deg); }
+    }
+
+    .item1{
+      animation: item1 4s linear -2s infinite forwards;
+    }
+    @keyframes item1{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(115deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(115deg) rotate3d(-1, 0, 0, 360deg); }
+    }
+
+    .item2{
+      animation: item2 4.5s linear -3s infinite forwards;
+    }
+    @keyframes item2{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(30deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(30deg) rotate3d(1, 0, 0, 360deg); }
+    }
+
+    .item3{
+      animation: item3 2.5s linear -4s infinite forwards;
+    }
+    @keyframes item3{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(145deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(145deg) rotate3d(-1, 0, 0, 360deg); }
+    }
+
+    .item4{
+      animation: item4 3s linear -5s infinite forwards;
+    }
+    @keyframes item4{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(60deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(60deg) rotate3d(1, 0, 0, 360deg); }
+    }
+
+    .item5{
+      animation: item5 5s linear -6s infinite forwards;
+    }
+    @keyframes item5{
+      0%{ transform: translate3d(-50%, -50%, 0) rotateZ(75deg); }
+      100% { transform: translate3d(-50%, -50%, 0) rotateZ(75deg) rotate3d(-1, 0, 0, 360deg); }
+    }
+  </style>
+</head>
+<body>
+    <div class="main">
+      <p class="title">loading</p>
+      <div class="container"></div>
+      <div class="wrapper"></div>
+      <div class="item1"></div>
+      <div class="item2"></div>
+      <div class="item3"></div>
+      <div class="item4"></div>
+      <div class="item5"></div>
+    </div>
+</body>
+</html>

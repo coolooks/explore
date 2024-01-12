@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>animation-timeline</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script> -->
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .main {
+      box-sizing: border-box;
+      padding: 10px;
+      /* scroll-padding: 100px; */
+    }
+    .item{
+      background-color: #eee;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+    .wrap{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .wrap p{
+      flex: auto;
+      padding: 20px;
+      text-align: center;
+      background-color: #f40;
+      animation: appear1 linear forwards;
+      animation-timeline: view();
+      animation-range: 20vh 80vh;
+    }
+    @keyframes appear1 {
+      from {
+        transform: scaleX(1);
+        background-color: #f40;
+      }
+      to {
+        transform: scaleX(0.2);
+        background-color: #0021dd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="wrap"><p></p></div>
+  </div>
+  <script>
+    const main = document.querySelector('.main');
+    const wrap = document.querySelector('.wrap');
+    for (let index = 0; index < 20; index++) {
+      let itemDOM = document.createElement('div')
+      itemDOM.setAttribute('class', 'item')
+      itemDOM.innerText = `前${index + 1}`
+      main.insertBefore(itemDOM, wrap)
+    }
+
+    for (let index = 0; index < 20; index++) {
+      let itemDOM = document.createElement('div')
+      itemDOM.setAttribute('class', 'item')
+      itemDOM.innerText = `后${index + 1}`
+      main.appendChild(itemDOM)
+    }
+  </script>
+</body>
+</html>

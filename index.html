@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/index.css">
+  <script src="./js/localforage.min.js"></script>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="box"></div>
+  <div class="box1"></div>
+  <div class="box2"></div>
+
+  <script src="./js/index.js"></script>
+  <script>
+    document.body.addEventListener('touchstart', function(e){
+      console.log(e._isScroller);
+      e.preventDefault()
+    }, {
+      passive: false
+    })
+    function sdgds () {
+
+    }
+    localforage.setDriver(localforage.INDEXEDDB);
+    let a = {x: 12, y: 12, z: 14, s: 34}
+    localforage.setItem('keys1', a);
+    localforage.setItem('keys2', a);
+    localforage.setItem('keys3', a);
+    localforage.setItem('keys4', a);
+
+    setTimeout(() => {
+      localforage.keys().then(res => {
+        console.log(res);
+      })
+    }, 1000);
+  </script>
+</body>
+</html>

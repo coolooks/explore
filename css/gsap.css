@@ -1,0 +1,110 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+.progress{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #ccc;
+  font-size: 14px;
+}
+
+.main{
+  padding: 100px 0 0 10px;
+  height: 200vh;
+}
+
+.contain{
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-evenly;
+  justify-content: center;
+}
+
+.wrap{
+  margin: 5px;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #666;
+}
+
+.test{
+  width: 20px;
+  height: 20px;
+  line-height: 80px;
+  background-color: rgb(255, 167, 109);
+  border-radius: 10px;
+  margin: 50px 0 0 300px;
+  font-size: 60px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+#slider{
+  display: block;
+  margin: 150px auto auto;
+  width: 500px;
+}
+
+.bai{
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 250px;
+  font-size: 50px;
+  font-weight: bold;
+  color: #666;
+}
+
+.bai-item{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  transform: translate3d(0, 0, -1000px);
+}
+
+
+
+
+.btn-contain{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.btn-contain .btn{
+  width: 100px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  margin: 0 10px;
+  background-color: #666;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.play{
+  background-color: #f60;
+}

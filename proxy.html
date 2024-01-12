@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Proxy</title>
+</head>
+<body>
+  <button onclick="foo()">确定</button>
+  <script>
+    let obj = {
+      name: 'zhang',
+      age: 30
+    }
+
+    let newObj = new Proxy(obj, {
+      get: function(target, key) {
+        console.log('get：', target, key);
+        return Reflect.get(target, key)
+      },
+      set: function(target, key, value) {
+        console.log('set：', target, key, value);
+        target[key] = value
+        return Reflect.set(target, key, value)
+      }
+    })
+    
+
+    function foo() {
+      let a = newObj.age
+
+      newObj.age = 100
+      newObj.name = 'kang'
+      console.log(newObj);
+    }
+
+
+    let deep = {
+      a: 100
+    }
+    Reflect.set(deep, 'b', 200)
+    console.log(deep);
+  </script>
+</body>
+</html>

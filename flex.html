@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>flex</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      display: flex;
+      height: 200px;
+      margin-top: 20px;
+      width: 400px;
+      margin: 20px auto 0 auto;
+    }
+    .left {
+      width: 100px;
+      height: 100%;
+      background: red;
+    }
+    .right {
+      flex: 1;
+      background: blue;
+      color: #fff;
+    }
+    .text{
+      overflow: hidden;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="left">123</div>
+    <div class="right">
+        <p class="text">这是一段很长长长长长长长长长长长长长长长长长长文字，这是一段很长长长长长长长长长长长长长长长长长长文字</p>
+    </div>
+  </div>
+  <div class="box" style="background: green">正常的box</div>
+  <button id="btn">啊啊啊啊啊</button>
+
+  <script>
+    document.getElementById('btn').addEventListener('click', debounce(() => {
+      console.log(111);
+    }, 1000))
+
+    function throttle(fn) {
+      let timer = null; // 首先设定一个变量，没有执行定时器时,默认为 null
+      return function () {
+        if (timer) return; // 当定时器没有执行的时候timer永远是false,后面无需执行
+        timer = setTimeout(() => {
+          fn.apply(this, arguments);
+          // 最后在setTimeout执行完毕后再把标记设置为true(关键)
+          // 表示可以执行下一次循环了。
+          timer = null;
+        }, 1000);
+      };
+    }
+
+    // debounce 函数接受一个函数和延迟执行的时间作为参数
+      function debounce (fn, delay) {
+        let timer = null  // 用于保存定时器
+        console.log('timer: ', timer);
+        return function () {
+          // 如果timer存在 就清除定时器，重新计时
+          if (timer) clearTimeout(timer);
+          //设置定时器，规定时间后执行真实要执行的函数
+          timer = setTimeout(() => {
+            fn.apply(this);
+          }, delay);
+        }
+      }
+
+  </script>
+</body>
+</html>

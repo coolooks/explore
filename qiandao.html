@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+    body{
+      background-color: #333;
+    }
+    .contain{
+      position: relative;
+      width: 800px;
+      margin: 0 auto;
+    }
+    .bg{
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .bg, .wrap{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .box{
+      font-size: 20px;
+      width: 70px;
+      height: 70px;
+      margin: 0 5px 5px 0;
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: none;
+    }
+    .border{
+      border: 2px solid #409EFF;
+      box-sizing: border-box;
+    }
+    .grid-border {
+      -webkit-mask-size: 240px 240px;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-image: radial-gradient(circle, #fff, transparent 120px);
+      -webkit-mask-position: 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="contain">
+      <div class="wrap">
+        <div class="box" v-for="(item,index) in 100" :key="index">{{item}}</div>
+      </div>
+  
+      <div class="bg grid-border" id="bg">
+        <div class="box border" v-for="(item,index) in 100" :key="index"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    new Vue({
+      el: '#app',
+      data() {
+        return{
+
+        }
+      },
+      mounted () {
+        this.$nextTick(() => {
+          let bg = document.getElementById('bg')
+          document.documentElement.addEventListener('mousemove', (e) => {
+            console.log(`screenX: ${e.clientX}, screenY: ${e.clientY}`);
+            bg.style.webkitMaskPosition = `${e.pageX - 120}px ${e.pageY - 120}px`
+          }, false)
+        })
+      }
+    })
+  </script>
+</body>
+</html>

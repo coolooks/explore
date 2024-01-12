@@ -1,0 +1,103 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+html, body{
+  font-family: PingFangSC,Microsoft YaHei UI,Helvetica Neue,Helvetica,STHeiTi,sans-serif;
+  -webkit-text-size-adjust: 100%!important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-size: 1.4rem;
+  color: #8f7d58;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.start-mask{
+  background-color: rgb(255, 239, 239);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.progress{
+  width: 25rem;
+  margin: auto;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.progress .line{
+  height: 1rem;
+  width: 1rem;
+  border-radius: 1rem;
+  background: repeating-linear-gradient(-45deg, #D9CFBB 25%,#C3B393 0, #C3B393 50%, #D9CFBB 0, #D9CFBB 75%, #C3B393 0);
+  background-size: 16px 16px;
+}
+
+.progress .title{
+  font-size: 1.6rem;
+}
+
+.progress p{
+  margin-top: .5rem;
+}
+
+.main{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.bg{
+  height: 100%;
+  background: url(../img/bg.jpg) center center / cover no-repeat;
+}
+
+.ren{
+  position: absolute;
+  bottom: -1.5rem;
+  right: -4rem;
+  width: 24rem;
+  height: 66rem;
+  background: url(../img/ren.webp) center center / contain no-repeat;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: transparent;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px #333;
+}
+
+.dialog{
+  position: absolute;
+  top: 28rem;
+  left: 2rem;
+}
+
+.dialog .content{
+  width: 24rem;
+  height: 12rem;
+  border-radius: 1rem;
+  background-color: blanchedalmond;
+  font-size: 2rem;
+  font-weight: 700;
+  border: 3px solid #444;
+  box-shadow: 0 0 .5rem #333;
+  padding: 1rem;
+  box-sizing: border-box;
+  opacity: 1;
+  line-height: 1.5;
+}
+
+.dialog .foot{
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}

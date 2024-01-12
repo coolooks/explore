@@ -1,0 +1,30 @@
+{
+  "frames": {
+    "cat.png": {
+      "frame": {"x":0,"y":0,"w":64,"h":64},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+      "sourceSize": {"w":64,"h":64},
+      "pivot": {"x":0.5,"y":0.5}
+    },
+    "tiger.png": {
+      "frame": {"x":192,"y":128,"w":64,"h":64},
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+      "sourceSize": {"w":64,"h":64},
+      "pivot": {"x":0.5,"y":0.5}
+    }
+  },
+  "meta": {
+		"version": "1.0",
+		"image": "00.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 500,
+			"h": 500
+		},
+		"scale": "1"
+	}
+}

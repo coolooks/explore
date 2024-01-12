@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>view transition</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+      min-width: 100vw;
+      min-height: 100vh;
+      padding: 50px 0 0 50px;
+      box-sizing: border-box;
+    }
+    div{
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    } */
+
+    .contain{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .wrap{
+      width: 100px;
+      height: 100px;
+      margin: 20px 20px 0 0;
+      border-radius: 10px;
+      background-color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      view-transition-name: var(--i);
+    }
+  </style>
+</head>
+<body>
+  <div class="contain">
+    <div class="wrap" style="--i: wrap1">1</div>
+    <div class="wrap" style="--i: wrap2">2</div>
+    <div class="wrap" style="--i: wrap3">3</div>
+    <div class="wrap" style="--i: wrap4">4</div>
+    <div class="wrap" style="--i: wrap6">6</div>
+    <div class="wrap" style="--i: wrap7">7</div>
+    <div class="wrap" style="--i: wrap8">8</div>
+    <div class="wrap" style="--i: wrap9">9</div>
+    <div class="wrap" style="--i: wrap10">10</div>
+  </div>
+  <script>
+
+    const wraps = document.querySelectorAll('.wrap')
+    for (let index = 0; index < wraps.length; index++) {
+      const wrap = wraps[index];
+      wrap.addEventListener('click', function(ev){
+        const transition = document.startViewTransition(() => {
+          ev.target.remove()
+        });
+      })
+    }
+  </script>
+</body>
+</html>

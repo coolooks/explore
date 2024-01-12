@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tesseract</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/lax.js" ></script> -->
+  <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrap{
+      position: relative;
+    }
+    .wrap img{
+      display: block;
+    }
+    .box{
+      position: absolute;
+      border: 1px solid red;
+      box-sizing: border-box;
+    }
+    .words{
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="wrap" id="wrap">
+      <img src="./img/text.png" alt="">
+    </div>
+    <div class="words" id="words"></div>
+  </div>
+
+  <script>
+    window.onload = async function () {
+      const { createWorker } = Tesseract
+      const worker = await createWorker('eng');
+      // const res = await worker.recognize('https://tesseract.projectnaptha.com/img/eng_bw.png');
+      const res = await worker.recognize('./img/text.png');
+      console.log('res: ', res);
+
+      let wrap = document.getElementById('wrap')
+      let words = document.getElementById('words')
+
+      words.innerHTML = res.data.hocr
+
+      for (let index = 0; index < res.data.words.length; index++) {
+        const word = res.data.words[index]
+        const wordDOM = createWord(word)
+        wrap.appendChild(wordDOM)
+      }
+
+      await worker.terminate();
+    }
+
+    function createWord(item) {
+      let div = document.createElement('div')
+      div.setAttribute('class', `box`)
+      const { x0, y0, x1, y1 } = item.baseline
+      div.style.left = `${x0}px`
+      div.style.top = `${y0}px`
+      div.style.width = `${x1 - x0}px`
+      div.style.height = `${y1 - y0}px`
+      return div
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+  <title>gsap</title>
+  <script src="./js/gsap-latest-beta.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollToPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/Draggable.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/EaselPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/MotionPathPlugin.min.js"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/PixiPlugin.min.js"></script> -->
+  <script src="./js/TextPlugin.min.js"></script>
+  <link rel="stylesheet" href="./css/gsap.css">
+</head>
+<body>
+    <div class="bai">
+      <span class="bai-item item1">白</span>
+      <span class="bai-item item2">老</span>
+      <span class="bai-item item3">板</span>
+      <span class="bai-item item4">牛</span>
+      <span class="bai-item item5">逼</span>
+    </div>
+  </div>
+
+  <script>
+    
+    let tween = startHandle().restart()
+
+    function startHandle() {
+      let tl = gsap
+      .timeline({
+        paused: true,
+        repeat: -1,
+        yoyo: false,
+        onUpdate() {
+          // let p_num = tl.totalProgress() * 100
+          // progressWrap.innerHTML = p_num.toFixed(2) + '%'
+        },
+        onComplete: () => {
+          // tl.progress(0).pause()
+        }
+      })
+      .to('.bai-item', { duration: 1, z: 300, stagger: 0.5, ease: 'none' })
+
+      return tl
+    }
+
+  </script>
+</body>
+</html>

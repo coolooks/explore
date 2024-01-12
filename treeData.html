@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>treeData</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'Microsoft YaHei';
+    }
+    .main{
+      display: flex;
+      padding: 40px;
+    }
+    .contain{
+      flex: none;
+      width: 300px;
+      margin-right: 20px;
+    }
+    pre{
+      display: block;
+      padding: 10px;
+      background-color: #eee;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="left contain">
+      <p>before</p>
+      <pre id="left"></pre>
+    </div>
+    <div class="right contain">
+      <p>after</p>
+      <pre id="right"></pre>
+    </div>
+  </div>
+
+  <script>
+    const arrs = [
+      { id: 2, name: '部门B', parentId: 0 },
+      { id: 3, name: '部门C', parentId: 1 },
+      { id: 1, name: '部门A', parentId: 2 },
+      { id: 4, name: '部门D', parentId: 1 },
+      { id: 5, name: '部门E', parentId: 2 },
+      { id: 6, name: '部门F', parentId: 3 },
+      { id: 7, name: '部门G', parentId: 2 },
+      { id: 8, name: '部门H', parentId: 4 }
+    ]
+    let left = document.getElementById('left')
+    let right = document.getElementById('right')
+
+    const result = []
+    const itemMap = arrs.reduce((res, item) => ({ ...res, [item.id]: { ...item }}), {})
+    for (const { id, parentId } of arrs) {
+      let child = itemMap[id]
+      let parent = itemMap[parentId]
+      if (!parentId) {
+        result.push(child)
+      } else {
+        if (!parent.children) {
+          parent.children = []
+        }
+        parent.children.push(child)
+      }
+    }
+
+    left.innerHTML = JSON.stringify(arrs, null, 4)
+    right.innerHTML = JSON.stringify(result, null, 4)
+  </script>
+</body>
+</html>

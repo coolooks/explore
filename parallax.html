@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>parallax</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    .bg {
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    .bg1{
+      background-image: url(./img/ad_01.png);
+    }
+    .bg2{
+      background-image: url(./img/ad_11.png);
+    }
+    .bg3{
+      background-image: url(./img/ad_12.png);
+    }
+    div {
+      height: 100vh;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      color: #fff;
+      line-height: 100vh;
+      text-align: center;
+      font-size: 20vh;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="css_demo">
+    <div class="word">一</div>
+    <div class="bg bg1"></div>
+    <div class="word">二</div>
+    <div class="bg bg2"></div>
+    <div class="word">三</div>
+    <div class="bg bg3"></div>
+  </div>
+</body>
+</html>

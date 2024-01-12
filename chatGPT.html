@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <title>chatGPT</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    .slider {
+      width: 100%;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-frame {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .slide {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .control {
+      display: inline-block;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider">
+    <div class="slide-frame">
+      <img src="http://bdcloud-market.oss-cn-beijing.aliyuncs.com/market/202106/22/j6Kf44lLT66G3TX954gtPkZgwutxufYqvhp8jgxn.png" class="slide">
+      <img src="http://bdcloud-market.oss-cn-beijing.aliyuncs.com/market/202206/21/BxNQXZQer0CI2eNdEp1fSPgOfKZDPe6kkJCtCNOq.jpg" class="slide">
+      <img src="http://bdcloud-market.oss-cn-beijing.aliyuncs.com/market/202106/22/j6Kf44lLT66G3TX954gtPkZgwutxufYqvhp8jgxn.png" class="slide">
+    </div>
+    <div class="controls">
+      <a id="prev-slide" class="control">&lt;</a>
+      <a id="next-slide" class="control">&gt;</a>
+    </div>
+  </div>
+  
+
+  <script>
+    var slider = document.querySelector(".slider");
+    var slideFrame = document.querySelector(".slide-frame");
+    var slides = document.querySelectorAll(".slide");
+    var prevSlide = document.getElementById("prev-slide");
+    var nextSlide = document.getElementById("next-slide");
+    var index = 0;
+
+    function moveSlide() {
+      slideFrame.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    prevSlide.addEventListener("click", function() {
+      if (index === 0) {
+        return;
+      }
+      index--;
+      moveSlide();
+    });
+
+    nextSlide.addEventListener("click", function() {
+      if (index === slides.length - 1) {
+        return;
+      }
+      index++;
+      moveSlide();
+    });
+
+
+  </script>
+</body>
+</html>

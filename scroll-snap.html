@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=375, user-scalable=no, viewport-fit=cover">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      width: 250px;
+      height: 250px;
+      padding: 20px 0;
+      margin: 100px auto;
+      background-color: #fafafa;
+      overflow-y: hidden;
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+
+      -webkit-scroll-snap-type: mandatory;
+      scroll-snap-type: x mandatory;
+      -webkit-scroll-snap-points-x: repeat(100%);
+      scroll-snap-points-x: repeat(100%);
+    }
+
+    .wrapper {
+      flex: none;
+      width: 250px;
+      height: 250px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      scroll-snap-align: center;
+      /* -webkit-scroll-snap-coordinate: 0% 0%; */
+    }
+
+    .wrapper:nth-child(odd) {
+      background-color: #eee;
+    }
+
+    .wrapper:nth-child(even) {
+      background-color: #ddd;
+    }
+
+    /* scroll */
+    @keyframes scroll {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(0, -200px);
+      }
+    }
+
+    .scroll-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 220px;
+      height: 40px;
+      background: #0066ff;
+      border-radius: 2em;
+      overflow: hidden;
+    }
+
+    .scroll-container .ul {
+      animation-name: scroll;
+      animation-duration: 5s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      /* animation: scroll 5s linear infinite; */
+    }
+
+    .scroll-container .li {
+      width: 100%;
+      line-height: 40px;
+      vertical-align: bottom;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">测试00</div>
+    <div class="wrapper">2</div>
+    <div class="wrapper">3</div>
+    <div class="wrapper">4</div>
+    <div class="wrapper">5</div>
+  </div>
+
+  <div class="scroll-container">
+    <div class="ul" height='160px'>
+      <div class="li">小刘同学加入了凹凸实验室1</div>
+      <div class="li">小邓同学加入了凹凸实验室2</div>
+      <div class="li">小李同学加入了凹凸实验室3</div>
+      <div class="li">小王同学加入了凹凸实验室4</div>
+      <div class="li">小刘同学加入了凹凸实验室5</div>
+      <div class="li">小刘同学加入了凹凸实验室1</div>
+    </div>
+  </div>
+
+  <picture style="display: block;">
+    <source srcset="./img/logo.png" media="(min-width: 1000px)">
+    <source srcset="./img/00.png" media="(max-width: 800px)">
+    <img src="./img/mid.jpg" alt="" width="100%" style="display:block;">
+  </picture>
+
+  <script>
+    let params = '%7B%22cid%22%3A%2299999988%7C42%22%7D'
+
+    function decodeLoop(params) {
+      this.params = params
+      this.val = null
+      this.code = () => {
+        this.val = decodeURIComponent(this.params)
+        if (this.params !== this.val) {
+          this.params = this.val
+          this.code()
+        }
+        return this.params;
+      }
+    }
+
+
+
+    let sss = new decodeLoop(params)
+    console.log('000', sss.code())
+
+  </script>
+</body>
+
+</html>

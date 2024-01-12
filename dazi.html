@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS 技巧</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    .drop-shadow{
+      margin: 50px;
+      width: 300px;
+    }
+    .drop-shadow img{
+      display: block;
+      width: 100%;
+      filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, .2));
+    }
+
+    /*  */
+    .step-text{
+      width: 19em;
+      margin:0 50px;
+      font-size: 20px;
+      border-right: 3px solid;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 2s steps(19),
+      effect .5s step-end infinite alternate;
+    }
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+    }
+    @keyframes effect {
+      50% {
+        border-color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="drop-shadow">
+    <img src="./img/logo.png" alt="">
+  </div>
+
+  <div class="step-text">这是一个打字效果的展示，十大歌手的第三方</div>
+</body>
+</html>
