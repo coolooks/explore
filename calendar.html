@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css grid</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .main{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .calendar{
+      width: 356px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+    }
+    .title{
+      text-align: center;
+      line-height: 2em;
+    }
+    .top{
+      display: grid;
+      grid-template-columns: repeat(7, 50px);
+      gap: 1px;
+    }
+    .top-wrap{
+      line-height: 3em;
+      font-size: 14px;
+      text-align: center;
+    }
+    .contain{
+      background-color: #f5f5f5;
+      display: inline-grid;
+      grid-template-columns: repeat(7, 50px);
+      grid-template-rows: repeat(6, 50px);
+      /* grid-auto-rows: 50px; */
+      gap: 1px;
+    }
+    .wrap{
+      background-color: #e8e8e8;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="main">
+      <div class="calendar" v-for="(item, index) in 12" :key="index">
+        <div class="title">{{ index + 1 }}月</div>
+        <div class="top">
+          <div class="top-wrap">一</div>
+          <div class="top-wrap">二</div>
+          <div class="top-wrap">三</div>
+          <div class="top-wrap">四</div>
+          <div class="top-wrap">五</div>
+          <div class="top-wrap">六</div>
+          <div class="top-wrap">日</div>
+        </div>
+        <div class="contain">
+          <div
+            class="wrap"
+            v-for="(it, i) in daysInThisMonth(index)"
+            :key="'w' + i"
+            :style="i === 0 ? { 'grid-column-start': weekInThisFristDay(index) === 0 ? 7 : weekInThisFristDay(index) } : null"
+          >{{ it }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          
+        }
+      },
+      methods: {
+        daysInThisMonth(month) {
+          var now = new Date();
+          return new Date(now.getFullYear(), month + 1, 0).getDate();
+        },
+        weekInThisFristDay(month) {
+          var now = new Date();
+          return new Date(now.getFullYear(), month, 1).getDay();
+        },
+      },
+    })
+    // const month = 0
+    // let containDOM = document.querySelector('.contain')
+    // let titleDOM = document.querySelector('.title')
+
+    // for (let index = 0; index < daysInThisMonth(); index++) {
+    //   let wrapDOM = createDOM()
+    //   let text = document.createTextNode(index + 1)
+    //   wrapDOM.appendChild(text)
+    //   if (index === 0) {
+    //     Object.assign(wrapDOM.style, {
+    //       'grid-column-start': weekInThisFristDay() === 0 ? 7 : weekInThisFristDay()
+    //     })
+    //   }
+    //   titleDOM.innerText = month + 1 + '月'
+    //   containDOM.appendChild(wrapDOM)
+    // }
+
+    // function weekInThisFristDay(month) {
+    //   var now = new Date();
+    //   return new Date(now.getFullYear(), month, 1).getDay();
+    // }
+
+    // function daysInThisMonth(month) {
+    //   var now = new Date();
+    //   return new Date(now.getFullYear(), month + 1, 0).getDate();
+    // }
+
+    function createDOM(classname = 'wrap') {
+      let div = document.createElement('div')
+      div.setAttribute('class', classname)
+      return div
+    }
+  </script>
+</body>
+</html>
