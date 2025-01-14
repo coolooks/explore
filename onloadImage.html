@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>onloadImage</title>
+</head>
+<body>
+  <div class="box"></div>
+
+  <div>
+    <img src="./img/ad_01.png" srcset="./img/ad_12.png 2x" alt="">
+    <input type='file' accept='image/*;' capture='camera'>
+  </div>
+  <script>
+    let src = 'http://ds-img.biaodianyun.cn/2181/urm_huodong/20240217/1708160747857.jpg'
+    let image = new Image()
+    image.src = src
+    image.onload = function(e) {
+      console.log(image.width);
+      document.querySelector('.box').appendChild(image)
+    }
+  </script>
+</body>
+</html>

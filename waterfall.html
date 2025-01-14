@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>waterfalls</title>
+  <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .contain{
+      margin: 50px 0 0 50px;
+      display: grid;
+      grid-template-columns: 100px 100px 100px;
+      grid-gap: 10px;
+    }
+    .contain::before,
+    .contain::after {
+      content: "";
+      flex-basis: 100%;
+      width: 0;
+      order: 2;
+    }
+    .wrap{
+      height: var(--h);
+      border-radius: 10px;
+      background: var(--color);
+      /* display: flex;
+      align-items: center;
+      justify-content: center; */
+      align-self: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="contain">
+    <div class="wrap" style="--color:#ffb9b9;--h:300px">1</div>
+    <div class="wrap" style="--color:#96e5ff;--h:200px">2</div>
+    <div class="wrap" style="--color:#b0fdbb;--h:120px">3</div>
+    <div class="wrap" style="--color:#ffc7c7;--h:220px">4</div>
+    <div class="wrap" style="--color:#cbc7ff;--h:50px">5</div>
+    <div class="wrap" style="--color:#fbffc7;--h:90px">6</div>
+    <div class="wrap" style="--color:#ffe0c7;--h:160px">7</div>
+    <div class="wrap" style="--color:#ffc7f3;--h:210px">8</div>
+    <div class="wrap" style="--color:#ffc7c7;--h:170px">9</div>
+    <div class="wrap" style="--color:#c7f4ff;--h:140px">10</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>优惠券打孔</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body{
+      background: #fafafa;
+    }
+
+    .main {
+      padding: 100px;
+    }
+
+    .wrapper {
+      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      width: 300px;
+      height: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .box {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border: 160px solid #fff;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) inset;
+    }
+
+    .left {
+      left: -180px;
+    }
+
+    .right {
+      right: -180px;
+    }
+
+    .coupon {
+      width: 590px;
+      height: 370px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      
+    }
+
+    .coupon-top,
+    .coupon-bottom {
+      background: #FFFFFF;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .coupon-top {
+      flex: 1;
+      border-radius: 16px 16px 0 0;
+
+    }
+
+    .coupon-bottom {
+      height: 120px;
+      padding: 0 38px;
+      border-radius: 0 0 16px 16px;
+
+    }
+
+    .coupon-middle {
+      height: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coupon-middle div {
+      /* 中间虚线 */
+      position: absolute;
+      left: 36px;
+      right: 36px;
+      top: 29px;
+      border-top: 1px dashed #E6E6E6;
+      z-index: 9;
+
+    }
+
+    .coupon-middle:before,
+    .coupon-middle:after {
+      content: '';
+      border: 300px solid #FFFFFF;
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      top: 50%;
+      margin-top: -330px;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05) inset;
+
+    }
+
+    .coupon-middle:before {
+      left: -330px;
+    }
+
+    .coupon-middle:after {
+      right: -330px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <div class="coupon">
+      <div class="coupon-top"></div>
+      <div class="coupon-middle">
+        <div></div>
+      </div>
+      <div class="coupon-bottom"></div>
+    </div>
+
+
+    <div class="wrapper">
+      <div class="box left"></div>
+      <div class="box right"></div>
+    </div>
+  </div>
+</body>
+
+</html>

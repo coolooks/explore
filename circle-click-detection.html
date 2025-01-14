@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆形点击检测</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="300" height="300"></canvas>
+    <p id="result"></p>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const result = document.getElementById('result');
+
+        // 圆的属性
+        const centerX = 150;
+        const centerY = 150;
+        const radius = 100;
+
+        // 绘制圆
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        canvas.addEventListener('click', function(event) {
+            // 获取鼠标点击的坐标
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // 计算点击位置到圆心的距离
+            const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+
+            // 判断是否在圆外
+            if (distance > radius) {
+                result.textContent = "点击在圆外";
+            } else {
+                result.textContent = "点击在圆内或圆上";
+            }
+        });
+    </script>
+</body>
+</html>
