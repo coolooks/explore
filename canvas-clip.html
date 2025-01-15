@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scratch Card</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="scratchCanvas" width="400" height="200"></canvas>
+  <script>
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+    const maskColor = '#ccc';
+    const revealColor = 'red';
+    const revealText = 'You Win!';
+
+    // 初始化画布
+    function initCanvas () {
+      ctx.fillStyle = maskColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = '30px Arial';
+      ctx.fillStyle = revealColor;
+      ctx.textAlign = 'center';
+      ctx.fillText(revealText, canvas.width / 2, canvas.height / 2);
+    }
+
+    // 绘制圆形橡皮擦
+    function drawCircle (x, y, size) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    // 处理鼠标移动事件
+    function handleMouseMove (event) {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      drawCircle(x, y, 20);
+    }
+
+    // 处理触摸移动事件
+    function handleTouchMove (event) {
+      event.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const touch = event.touches[0];
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      drawCircle(x, y, 20);
+    }
+
+    // 初始化画布
+    initCanvas();
+
+    // 监听鼠标和触摸移动事件
+    // canvas.addEventListener('mousemove', handleMouseMove);
+    // canvas.addEventListener('touchmove', handleTouchMove);
+  </script>
+</body>
+
+</html>
