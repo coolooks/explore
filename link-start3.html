@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超时空穿梭特效</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="spaceCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+
+    const stars = [];
+    const starCount = 5000;
+    const speed = 1;
+
+    class Star {
+      constructor() {
+        this.x = Math.random() * w - w / 2;
+        this.y = Math.random() * h - h / 2;
+        this.z = Math.random() * w;
+        this.pz = this.z;
+      }
+
+      update () {
+        this.z -= speed;
+        if (this.z < 1) {
+          this.z = w;
+          this.x = Math.random() * w - w / 2;
+          this.y = Math.random() * h - h / 2;
+          this.pz = this.z;
+        }
+      }
+
+      show () {
+        const sx = (this.x / this.z) * w + w / 2;
+        const sy = (this.y / this.z) * h + h / 2;
+        const r = 5 * (1 - this.z / w);
+
+        const px = (this.x / this.pz) * w + w / 2;
+        const py = (this.y / this.pz) * h + h / 2;
+
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - this.z / w})`;
+        ctx.lineWidth = r;
+        ctx.moveTo(px, py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        this.pz = this.z;
+      }
+    }
+
+    function init () {
+      for (let i = 0; i < starCount; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animate () {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.translate(w / 2, h / 2);
+
+      stars.forEach(star => {
+        star.update();
+        star.show();
+      });
+
+      ctx.translate(-w / 2, -h / 2);
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    });
+
+    init();
+    animate();
+  </script>
+</body>
+
+</html>

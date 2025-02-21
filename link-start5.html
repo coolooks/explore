@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超时空穿梭特效 - 随机颜色星星</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="spaceCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+
+    const stars = [];
+    const starCount = 1000; // 星星数量
+    const speed = 5; // 星星移动速度
+
+    // 生成随机颜色
+    function getRandomColor () {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgba(${r}, ${g}, ${b}, 1)`;
+    }
+
+    class Star {
+      constructor() {
+        // 初始位置在中心
+        this.x = Math.random() * w - w / 2;
+        this.y = Math.random() * h - h / 2;
+        // 随机深度（z轴）
+        this.z = Math.random() * w;
+        this.pz = this.z; // 上一帧的深度
+        // 随机颜色
+        this.color = getRandomColor();
+      }
+
+      update () {
+        // 星星向外移动
+        this.z -= speed;
+        // 如果星星超出视野，重置到远处
+        if (this.z < 1) {
+          this.z = w;
+          this.x = Math.random() * w - w / 2;
+          this.y = Math.random() * h - h / 2;
+          this.pz = this.z;
+          this.color = getRandomColor(); // 重置颜色
+        }
+      }
+
+      show () {
+        // 将3D坐标映射到2D屏幕
+        const sx = (this.x / this.z) * w + w / 2;
+        const sy = (this.y / this.z) * h + h / 2;
+
+        // 上一帧的2D坐标
+        const px = (this.x / this.pz) * w + w / 2;
+        const py = (this.y / this.pz) * h + h / 2;
+
+        // 星星的大小和透明度
+        const r = 2 * (1 - this.z / w);
+        const alpha = 1 - this.z / w;
+
+        // 绘制光流效果
+        ctx.beginPath();
+        ctx.strokeStyle = this.color; // 使用随机颜色
+        ctx.lineWidth = r;
+        ctx.moveTo(px, py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        // 更新上一帧的深度
+        this.pz = this.z;
+      }
+    }
+
+    function init () {
+      for (let i = 0; i < starCount; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animate () {
+      // 清空画布，用半透明黑色覆盖以产生拖尾效果
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, w, h);
+
+      // 绘制每一颗星星
+      stars.forEach(star => {
+        star.update();
+        star.show();
+      });
+
+      // 循环动画
+      requestAnimationFrame(animate);
+    }
+
+    // 窗口大小调整时重置画布大小
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    });
+
+    // 初始化星星并开始动画
+    init();
+    animate();
+  </script>
+</body>
+
+</html>

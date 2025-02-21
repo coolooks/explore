@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Improved Hyperspace Warp Effect</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+    }
+    canvas {
+      display: block;
+      filter: blur(1.2px);
+    }
+    .stars-container {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000 70%);
+    }
+  </style>
+</head>
+<body>
+  <div class="stars-container">
+    <canvas id="spaceCanvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas to full window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Center point
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+    
+    // Star colors - sci-fi hyperspace colors
+    const colors = [
+      '#ff6a4d', // Bright orange-red
+      '#ff8b66', // Light orange
+      '#4d7aff', // Bright blue
+      '#66a3ff', // Light blue
+      '#ffffff', // White
+      '#7f5dff', // Purple
+      '#5dc2ff'  // Cyan
+    ];
+    
+    // Background stars (small, static)
+    const bgStars = [];
+    const numBgStars = 300;
+    
+    // Warp stars (the streaking lines)
+    const warpStars = [];
+    const maxWarpStars = 700;
+    const targetStarDensity = 450;
+    const spawnRate = 8;
+    
+    // Configuration
+    const angleSegments = 60;
+    const maxDistance = Math.max(canvas.width, canvas.height) * 1.5;
+    const minStartDistance = 50; // Minimum distance from center to start stars
+    const maxStartDistance = 120; // Maximum distance from center to start stars
+    let warpSpeed = 1; // Adjustable warp factor
+    
+    // Create background stars
+    function createBackgroundStars() {
+      for (let i = 0; i < numBgStars; i++) {
+        bgStars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 1 + 0.5,
+          brightness: Math.random() * 0.5 + 0.5
+        });
+      }
+    }
+    
+    // Create initial warp stars with staggered distances
+    function initWarpStars() {
+      // Calculate how many stars to create initially
+      const initialStarCount = Math.floor(targetStarDensity / 2);
+      
+      for (let i = 0; i < angleSegments; i++) {
+        const baseAngle = (Math.PI * 2 * i) / angleSegments;
+        
+        const starsPerSegment = Math.floor(initialStarCount / angleSegments);
+        for (let j = 0; j < starsPerSegment; j++) {
+          // Distribute initial distances throughout space
+          const distanceFactor = j / starsPerSegment;
+          const initialDistance = minStartDistance + (maxDistance * 0.7 * distanceFactor);
+          
+          // Add small angle variation
+          const angleVariation = (Math.random() * 0.4 - 0.2) * (Math.PI / angleSegments);
+          const angle = baseAngle + angleVariation;
+          
+          createWarpStar(angle, initialDistance);
+        }
+      }
+    }
+    
+    // Function to create a new warp star
+    function createWarpStar(angle, distance) {
+      if (warpStars.length >= maxWarpStars) return;
+      
+      // Randomize the angle slightly if not provided
+      if (angle === undefined) {
+        const segmentIndex = Math.floor(Math.random() * angleSegments);
+        const baseAngle = (Math.PI * 2 * segmentIndex) / angleSegments;
+        const angleVariation = (Math.random() * 0.4 - 0.2) * (Math.PI / angleSegments);
+        angle = baseAngle + angleVariation;
+      }
+      
+      // Start stars away from center
+      distance = distance || (minStartDistance + Math.random() * (maxStartDistance - minStartDistance));
+      
+      // Determine core color
+      const colorIndex = Math.floor(Math.random() * colors.length);
+      const color = colors[colorIndex];
+      
+      warpStars.push({
+        angle: angle,
+        distance: distance,
+        x: centerX + Math.cos(angle) * distance,
+        y: centerY + Math.sin(angle) * distance,
+        baseSpeed: (1.5 + Math.random() * 1.5) * warpSpeed,
+        speed: 0, // Will be calculated
+        color: color,
+        size: 0.3 + Math.random() * 1.2,
+        alpha: 0.1, // Start slightly visible
+        tailLength: Math.min(distance * 0.5, 40), // Longer initial tails
+        fadeInSpeed: 0.01 + Math.random() * 0.02,
+        // Add z-depth simulation for 3D effect
+        z: 0.1 + Math.random() * 0.9
+      });
+    }
+    
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Semi-transparent black with slight blue tint for space feel
+      ctx.fillStyle = 'rgba(0, 0, 2, 0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw background stars first
+      for (let i = 0; i < bgStars.length; i++) {
+        const star = bgStars[i];
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness * 0.5})`;
+        ctx.fill();
+      }
+      
+      // Set composite operation for glow effect
+      ctx.globalCompositeOperation = 'lighten';
+      
+      // Spawn new warp stars to maintain density
+      const needToSpawn = targetStarDensity - warpStars.length;
+      const spawnCount = Math.min(spawnRate, needToSpawn);
+      
+      for (let i = 0; i < spawnCount; i++) {
+        createWarpStar();
+      }
+      
+      // Draw central void effect (black center)
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, minStartDistance * 0.7, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.fill();
+      
+      // Update and draw each warp star
+      for (let i = 0; i < warpStars.length; i++) {
+        const star = warpStars[i];
+        
+        // Fade in effect
+        if (star.alpha < 0.7) {
+          star.alpha += star.fadeInSpeed;
+        }
+        
+        // Calculate speed based on distance from center (accelerating outward)
+        // and z-depth for 3D effect
+        star.speed = star.baseSpeed * (1 + star.distance / 200) * (1 / star.z);
+        
+        // Update distance from center
+        star.distance += star.speed;
+        
+        // Calculate new position
+        star.x = centerX + Math.cos(star.angle) * star.distance;
+        star.y = centerY + Math.sin(star.angle) * star.distance;
+        
+        // Grow tail as star moves outward - longer for stars that appear closer (lower z)
+        const tailFactor = 1.5 + (1 - star.z);
+        star.tailLength = Math.min(Math.max(40, star.distance * 0.3 * tailFactor), 150);
+        
+        // Calculate tail end position
+        const tailEndX = centerX + Math.cos(star.angle) * (star.distance - star.tailLength);
+        const tailEndY = centerY + Math.sin(star.angle) * (star.distance - star.tailLength);
+        
+        // Create gradient for the trail
+        const gradient = ctx.createLinearGradient(star.x, star.y, tailEndX, tailEndY);
+        
+        // Adjust color based on speed for "red/blue shift" effect
+        const colorOffset = (star.speed / 10) * warpSpeed;
+        const colorIntensity = Math.min(1, 0.7 + colorOffset);
+        
+        gradient.addColorStop(0, star.color);
+        gradient.addColorStop(0.4, star.color.replace(')', `, ${colorIntensity * 0.5})`).replace('rgb', 'rgba'));
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        
+        // Draw glow effect - size based on z-depth for 3D effect
+        const glowSize = star.size * (3 - star.z * 1.5);
+        ctx.beginPath();
+        ctx.moveTo(star.x, star.y);
+        ctx.lineTo(tailEndX, tailEndY);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = glowSize;
+        ctx.globalAlpha = star.alpha * 0.3;
+        ctx.stroke();
+        
+        // Draw main line - size based on z-depth for 3D effect
+        const lineSize = star.size * (2 - star.z);
+        ctx.beginPath();
+        ctx.moveTo(star.x, star.y);
+        ctx.lineTo(tailEndX, tailEndY);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = lineSize;
+        ctx.globalAlpha = star.alpha;
+        ctx.stroke();
+        
+        // Add bright point at front of star
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + star.alpha * 0.8 + ')';
+        ctx.fill();
+        
+        // Remove star if it goes too far
+        if (star.distance > maxDistance) {
+          warpStars.splice(i, 1);
+          i--;
+        }
+      }
+      
+      // Reset composite operation
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      
+      // Add slight vignette effect for more immersive feel
+      const gradient = ctx.createRadialGradient(
+        centerX, centerY, 0,
+        centerX, centerY, canvas.width * 0.7
+      );
+      gradient.addColorStop(0, 'rgba(0,0,0,0)');
+      gradient.addColorStop(1, 'rgba(0,0,0,0.4)');
+      
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      centerX = canvas.width / 2;
+      centerY = canvas.height / 2;
+      
+      // Reset stars to match new dimensions
+      bgStars.length = 0;
+      warpStars.length = 0;
+      createBackgroundStars();
+      initWarpStars();
+    });
+    
+    // Add interactive warp speed control with mouse
+    canvas.addEventListener('mousemove', (e) => {
+      // Calculate distance from center
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const distFromCenter = Math.sqrt(dx*dx + dy*dy);
+      
+      // Map to warp factor (1.0-3.0)
+      warpSpeed = 1.0 + (distFromCenter / (canvas.width/2)) * 2.0;
+      warpSpeed = Math.max(1.0, Math.min(3.0, warpSpeed));
+    });
+    
+    // Start animation
+    createBackgroundStars();
+    initWarpStars();
+    animate();
+  </script>
+</body>
+</html>

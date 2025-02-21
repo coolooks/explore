@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超时空飞行特效</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="spaceCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 设置画布大小
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // 星星数组
+    const stars = [];
+    const numStars = 1000; // 星星数量
+    const speed = 10; // 飞行速度
+
+    // 初始化星星
+    function initStars () {
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          z: Math.random() * canvas.width,
+          size: Math.random() * 2,
+          speed: Math.random() * speed
+        });
+      }
+    }
+
+    // 绘制星星
+    function drawStars () {
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+
+        // 计算星星的位置
+        const x = (star.x - canvas.width / 2) * (canvas.width / star.z);
+        const y = (star.y - canvas.height / 2) * (canvas.width / star.z);
+        const r = star.size * (canvas.width / star.z);
+
+        // 绘制星星
+        ctx.beginPath();
+        ctx.arc(x + canvas.width / 2, y + canvas.height / 2, r, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+
+        // 更新星星的位置
+        star.z -= star.speed;
+
+        // 如果星星飞出屏幕，重置它的位置
+        if (star.z <= 0 || star.z > canvas.width) {
+          star.x = Math.random() * canvas.width;
+          star.y = Math.random() * canvas.height;
+          star.z = canvas.width;
+        }
+      }
+    }
+
+    // 动画循环
+    function animate () {
+      drawStars();
+      requestAnimationFrame(animate);
+    }
+
+    // 初始化并启动动画
+    initStars();
+    animate();
+
+    // 窗口大小变化时调整画布大小
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars();
+    });
+  </script>
+</body>
+
+</html>

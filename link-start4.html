@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宇宙超时空飞行特效（带正确彗尾角度）</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const starCount = 500;
+    const stars = [];
+    const cameraSpeed = 5;
+
+    function getRandomColor () {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    const camera = {
+      x: 0,
+      y: 0,
+      z: 0
+    };
+
+    class Star {
+      constructor() {
+        this.x = (Math.random() - 0.5) * 2000;
+        this.y = (Math.random() - 0.5) * 2000;
+        this.z = Math.random() * 1000 + 100;
+        this.color = getRandomColor();
+        this.prevScreenX = null;
+        this.prevScreenY = null;
+      }
+
+      update () {
+        this.z -= cameraSpeed;
+        if (this.z < 1) {
+          this.x = (Math.random() - 0.5) * 2000;
+          this.y = (Math.random() - 0.5) * 2000;
+          this.z = Math.random() * 1000 + 100;
+          this.color = getRandomColor();
+          this.prevScreenX = null;
+          this.prevScreenY = null;
+        }
+        const scale = 1 / (this.z / 100);
+        this.screenX = canvas.width / 2 + (this.x - camera.x) * scale;
+        this.screenY = canvas.height / 2 + (this.y - camera.y) * scale;
+        this.size = scale * 2;
+
+        if (this.prevScreenX !== null && this.prevScreenY !== null) {
+          const dx = this.screenX - this.prevScreenX;
+          const dy = this.screenY - this.prevScreenY;
+          this.tailAngle = Math.atan2(dy, dx);
+        }
+        this.prevScreenX = this.screenX;
+        this.prevScreenY = this.screenY;
+      }
+
+      draw () {
+        if (this.tailAngle !== undefined) {
+          const tailLength = this.size * 10;
+          const tailEndX = this.screenX - tailLength * Math.cos(this.tailAngle);
+          const tailEndY = this.screenY - tailLength * Math.sin(this.tailAngle);
+
+          const gradient = ctx.createLinearGradient(this.screenX, this.screenY, tailEndX, tailEndY);
+          gradient.addColorStop(0, this.color);
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+          ctx.beginPath();
+          ctx.moveTo(this.screenX, this.screenY);
+          ctx.lineTo(tailEndX, tailEndY);
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = this.size;
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.arc(this.screenX, this.screenY, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < starCount; i++) {
+      stars.push(new Star());
+    }
+
+    function animate () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].draw();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+
+</html>
